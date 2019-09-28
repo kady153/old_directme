@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Directme</title>
+    <link rel = "icon" type = "image/png" href = "static/logo_fav.png">
+    <!-- For apple devices -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "static/logo_fav.png"/>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+    <script type="text/javascript" src = "/static/countries.js"></script>
+    <title>Form</title>
+    <link rel="stylesheet" href=/static/css/form.css>
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/site.css" rel="stylesheet" >
+
+
+    <!-- Custom styles for this template -->
+    <link href="album.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="#" class="navbar-brand d-flex align-items-center" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">
+
+                   <img width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" src="/static/logo.png">
+
+        <strong>Directme</strong>
+      </a>
+
+    <div>
+      {% if userinfo != None %}
+      <img class="profile_img" src={{connected_user.picture}} onerror="this.onerror=null;this.src='{{url_for(send_img,filename=connected_user.picture)}}'
+;" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">
+      {% else %}
+          <button margin-top="11px" class="login_button" onclick="window.location.href='{{url_for('login')}}'">Login</button>
+      {% endif %}
+        <div class="burgerdropdown">
+          <div id="bars" class="dropdown_connatiner dropbtn" onclick="myFunct(this);myFunction();">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+          <div id="myDropdown" class="dropdown-content">
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">Home</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">About</a>
+            {% if userinfo == None %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('login')}}';event.preventDefault();">Login</a>
+            {% else %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('chat_rooms')}}';event.preventDefault();">Available messages</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">View profile</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('logout')}}';event.preventDefault();" >Logout</a>
+            {% endif %}
+
+          </div>
+        </div>    
+    </div>   
+    </div>
+  </div>
+</header>
+</head>
+<body>
+
+
+<section class="jumbotron text-center">
+
+<div class="container">
+  <h2 style="text-align: center;">Edit profile</h2>
+<div class="form_container">
+  <form method=post enctype=multipart/form-data>
+    <div class="row">
+      <div class="col-25">
+        <label class="form_label" >Name</label>
+      </div>
+      <div class="col-75">
+        <input class="form_input" class="form_input" type="text" placeholder=" Name.." name="name" size="30" maxlength="40" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label class="form_label">Country</label>
+      </div>
+      <div class="col-75">
+         <select id="country" name="country" required></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label class="form_label">City</label>
+      </div>
+      <div class="col-75">
+         <select name="state" id="state" required></select>
+      </div>
+    </div>
+    <script language="javascript">
+       populateCountries("country", "state");
+    </script>
+    <div class="row">
+      <div class="col-25">
+        <label class="form_label">Image (optional)</label>
+      </div>
+      <div class="col-75">
+        <input class="form_input" type=file name=file accept="image/*">
+      </div>
+    </div>
+    <div class="row btn_container">
+      <input class="form_input" type="submit" value="Submit" >
+      <input class="form_input" type="button" value="Cancel" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}'">
+    </div>
+  </form>
+</div>
+</div>
+</section> 
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>for support contact us at amr.elkady153@gmail.com</a></p>
+  </div>
+</footer>
+<script type="text/javascript">
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("showdroplist");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('showdroplist')) {
+        openDropdown.classList.remove('showdroplist');
+        document.getElementById("bars").classList.toggle("change");
+      }
+    }
+  }
+}
+function myFunct(x) {
+  x.classList.toggle("change");
+}
+</script>
+</body>
+</html>

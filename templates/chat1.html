@@ -1,0 +1,230 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Directme</title>
+    <link rel = "icon" type = "image/png" href = "static/logo_fav.png">
+    <!-- For apple devices -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "static/logo_fav.png"/>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/site.css" rel="stylesheet" >
+    
+<script src="/static/2.js"></script>
+<script src="/static/3.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
+<link href="/static/css/style.css" type="text/css" rel="stylesheet">
+<link href="/static/css/1.css" rel="stylesheet" id="bootstrap-css">
+
+  </head>
+  <body>
+    <header>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="#" class="navbar-brand d-flex align-items-center" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">
+
+                   <img width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" src="/static/logo.png">
+
+        <strong>Directme</strong>
+      </a>
+
+    <div>
+      {% if userinfo != None %}
+
+      {% else %}
+          <button margin-top="11px" class="login_button" onclick="window.location.href='{{url_for('login')}}'">Login</button>
+      {% endif %}
+        <div class="burgerdropdown">
+          <div id="bars" class="dropdown_connatiner dropbtn" onclick="myFunct(this);myFunction();">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+          <div id="myDropdown" class="dropdown-content">
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">Home</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">About</a>
+            {% if userinfo == None %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('login')}}';event.preventDefault();">Login</a>
+            {% else %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('chat_rooms')}}';event.preventDefault();">Available messages</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">View profile</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('logout')}}';event.preventDefault();" >Logout</a>
+            {% endif %}
+
+          </div>
+        </div>    
+    </div>   
+    </div>
+  </div>
+</header>
+<main>
+        <div class="container">
+        <a class="profile_namebtn" href="" style="display: inline-block;margin-top: 20px;" onclick="window.location.href='{{url_for('profile',user_id=other_enduser.id)}}';event.preventDefault();">{{other_enduser.name}}</a>
+        <a href="#" class="btn btn-primary my-2" style="float: right;" onclick="window.location.href='{{url_for('schedule_date',other_enduser=other_enduser.id,room=room)}}'">Schedule session</a>
+        <div class="mesgs">
+          <div id="allmsgs"class="msg_history">
+            <div class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>Test which is a new approach to have all
+                    solutions</p>
+                  <span class="time_date"> 11:01 AM    |    June 9</span></div>
+              </div>
+            </div>
+            <div class="outgoing_msg">
+              <div class="sent_msg">
+                <p>Test which is a new approach to have all
+                  solutions</p>
+                <span class="time_date"> 11:01 AM    |    June 9</span> </div>
+            </div>
+
+            <div class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>We work directly with our designers and suppliers,
+                    and sell direct to you, which means quality, exclusive
+                    products, at a price anyone can afford.</p>
+                  <span class="time_date"> 11:01 AM    |    Today</span></div>
+              </div>
+            </div>
+            {% for msg in msgs %}
+                {% if msg.msg_from == userinfo['user_id'] and room == msg.room %}
+
+                     <div class="outgoing_msg msg_container">
+                      <div class="sent_msg">
+                       <p>{{msg.msg}}</p>
+                       <span class="time_date">
+                           <script>
+                           ourDate = new Date("{{msg.created_at}}");
+                           x=ourDate.getTimezoneOffset()
+                           ourDate.setTime(ourDate.getTime() - x*60000);
+                           var options = { year: 'numeric', month: 'long', day: 'numeric' ,hour:"2-digit",minute:"2-digit"};
+                           document.write(
+                           ourDate.toLocaleString("en-US", options));
+                         </script>
+                       </span> </div>
+                     </div>
+                {% elif msg.msg_from != userinfo['user_id'] and room==msg.room  %}
+                    <div class="incoming_msg msg_container">
+                         <div class="incoming_msg_img"> 
+                           </div>
+                          <div class="received_msg">
+                          <div class="received_withd_msg">
+                          <p>{{msg.msg}}</p>
+                          <span class="time_date">
+                            <script type="text/javascript">
+                                 ourDate = new Date("{{msg.created_at}}");
+                                 x=ourDate.getTimezoneOffset()
+                                 ourDate.setTime(ourDate.getTime() - x*60000);
+                                 var options = { year: 'numeric', month: 'long', day: 'numeric' ,hour:"2-digit",minute:"2-digit"};
+                                 document.write(
+                                 ourDate.toLocaleString("en-US", options));                              
+                            </script>
+                          </span></div>
+                            </div>
+                          </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" id="mymessage"class="write_msg" placeholder="Type a message" autocomplete="off">
+              <button id="sendbutton"class="msg_send_btn" type="button"><img src="/static/send.png" alt="sunil"></button>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div></div>
+  </main>
+    <script type="text/javascript">
+      userinfo = {{userinfo|tojson}}
+      picture=userinfo["picture"]
+      $(document).ready(function(){
+        var socket = io.connect();
+        socket.on('connect', function() {
+                 // Connected, let's sign-up for to receive messages for this room
+                 socket.emit('room', userinfo['user_id']);
+              });
+        socket.on('message',function(msg,msg_from,time){
+                                 ourDate = new Date(time);
+                                 x=ourDate.getTimezoneOffset()
+                                 ourDate.setTime(ourDate.getTime() - x*60000);
+                                 var options = { year: 'numeric', month: 'long', day: 'numeric' ,hour:"2-digit",minute:"2-digit"};
+                                 ourDate.toLocaleString("en-US", options);         
+          if (msg_from==userinfo['user_id']){
+            $('#allmsgs').append(" <div class='outgoing_msg msg_container'><div class='sent_msg'><p>"+msg+"</p><span class='time_date'>"+ourDate+"</span></div></div>"
+            );
+
+          }else{
+            $('#allmsgs').append("<div class='incoming_msg msg_container'><div class='incoming_msg_img'></div><div class='received_msg'><div class='received_withd_msg'><p>"+msg+"</p><span class='time_date'>"+ourDate+"</span></div></div></div>");
+
+          }
+          $('#allmsgs').animate({
+                 scrollTop: $('#allmsgs').get(0).scrollHeight
+             }, 2000);
+        });
+        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+        $('#sendbutton').on('click',function(){
+          socket.send($('#mymessage').val());
+          $('#mymessage').val('');
+
+        });
+        $("#mymessage").on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                 socket.send($('#mymessage').val());
+                 $('#mymessage').val('');
+            }
+        });
+
+
+      });
+      $(document).ready(function() {
+    $('#allmsgs').animate({
+        scrollTop: $('#allmsgs').get(0).scrollHeight
+    }, 2000);
+});
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("showdroplist");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('showdroplist')) {
+        openDropdown.classList.remove('showdroplist');
+        document.getElementById("bars").classList.toggle("change");
+      }
+    }
+  }
+}
+function myFunct(x) {
+  x.classList.toggle("change");
+}
+    </script>
+    </body>
+    </html>
+
+
+
+
+
+

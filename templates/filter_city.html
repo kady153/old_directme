@@ -1,0 +1,185 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Directme</title>
+    <link rel = "icon" type = "image/png" href = "static/logo_fav.png">
+    <!-- For apple devices -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "static/logo_fav.png"/>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/site.css" rel="stylesheet" >
+
+<script type="text/javascript" src = "/static/countries.js"></script>
+<style>
+/*the container must be positioned relative:*/
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: DodgerBlue;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+  </head>
+  <body>
+    <header>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="#" class="navbar-brand d-flex align-items-center" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">
+
+                   <img width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" src="/static/logo.png">
+
+        <strong>Directme</strong>
+      </a>
+
+    <div>
+      {% if userinfo != None %}
+      <img class="profile_img" src={{connected_user.picture}} onerror="this.onerror=null;this.src='{{url_for(send_img,filename=connected_user.picture)}}'
+;" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">
+      {% else %}
+          <button margin-top="11px" class="login_button" onclick="window.location.href='{{url_for('login')}}'">Login</button>
+      {% endif %}
+        <div class="burgerdropdown">
+          <div id="bars" class="dropdown_connatiner dropbtn" onclick="myFunct(this);myFunction();">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+          <div id="myDropdown" class="dropdown-content">
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">Home</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">About</a>
+            {% if userinfo == None %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('login')}}';event.preventDefault();">Login</a>
+            {% else %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('chat_rooms')}}';event.preventDefault();">Available messages</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">View profile</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('logout')}}';event.preventDefault();" >Logout</a>
+            {% endif %}
+
+          </div>
+        </div>    
+    </div>   
+    </div>
+  </div>
+</header>
+
+<main role="main">
+    <div align="center">
+         <h1>Choose the city you want to visit</h1>
+        <form method=post enctype=multipart/form-data action="{{ url_for('filter_city')}}">
+             <hr/>
+             <br/>Select Country:
+             <select class="location_select" id="country" name="country" required></select>
+             <br /> Select city:
+             <select class="location_select" name="state" id="state" required></select>
+             <br/>
+             <script language="javascript">
+                 populateCountries("country", "state");
+             </script>
+             <input class="location_submit" type="submit" value="Submit">
+             <br/>
+             <br/>
+        </form>
+    </div>
+
+</main>
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>for support contact us at amr.elkady153@gmail.com</a></p>
+  </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="/static/bootstrap2.js"><\/script>')</script><script src="/static/bootstrap.js" ></script>
+
+<script type="text/javascript">
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("showdroplist");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('showdroplist')) {
+        openDropdown.classList.remove('showdroplist');
+        document.getElementById("bars").classList.toggle("change");
+      }
+    }
+  }
+}
+function myFunct(x) {
+  x.classList.toggle("change");
+}
+</script>
+
+
+</body>
+</html>

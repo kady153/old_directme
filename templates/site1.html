@@ -1,0 +1,146 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Directme</title>
+    <link rel = "icon" type = "image/png" href = "static/logo_fav.png">
+    <!-- For apple devices -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "static/logo_fav.png"/>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+<link href="/static/css/site.css" rel="stylesheet" >
+
+
+    <!-- Custom styles for this template -->
+    <link href="album.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="#" class="navbar-brand d-flex align-items-center">
+
+                   <img width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" src="/static/logo.png">
+
+        <strong>Directme</strong>
+      </a>
+
+    <div>
+      {% if userinfo != None %}
+      <img class="profile_img" src={{userinfo.picture}} onerror="this.onerror=null;this.src='{{url_for(send_img,filename=userinfo.picture)}}'
+;" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">
+      {% else %}
+          <button margin-top="11px" class="login_button" onclick="window.location.href='{{url_for('login')}}'">Login</button>
+      {% endif %}
+        <div class="burgerdropdown">
+          <div id="bars" class="dropdown_connatiner dropbtn" onclick="myFunct(this);myFunction();">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+          <div id="myDropdown" class="dropdown-content">
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('site')}}';event.preventDefault();">Home</a>
+            <a id="a_list" href="#intro_sec">About</a>
+            {% if userinfo == None %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('login')}}';event.preventDefault();">Login</a>
+            {% else %}
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('chat_rooms')}}';event.preventDefault();">Available messages</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('profile',user_id=user_id)}}';event.preventDefault();">View profile</a>
+            <a id="a_list" href="" onclick="window.location.href='{{url_for('logout')}}';event.preventDefault();" >Logout</a>
+            {% endif %}
+
+          </div>
+        </div>    
+    </div>   
+    </div>
+  </div>
+</header>
+
+<main role="main">
+  </section>
+    <section class="enjoy-css" id="intro_sec">
+    <div class="about_container">
+      <h1 id="about_h" class="about_txt">About</h1>
+      <p id="about_description" class="about_txt">No one knows a city better than it's people , Directme connects you with the people from the city you want to vist or wants directions in to make the best out of your visit by one day chat session at the lowest prices, you can know the best places for visit ,shopping,food,best places to stay at,places that have discounts right now and so many information that no one else knows other than townspeople</p>
+    </div>
+  </section>
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">How it works</h1>
+      <div class="icon_container">
+      <img class="section2" src="/static/sign_up.png">
+      <p class="icon_text">sign up to create new account</p>
+      </div>
+      <div class="icon_container">
+      <img class="section2" src="/static/search_icon.png">
+      <p class="icon_text">Select a country and a city and all registered guides will appear Select a guide with the price suitable to you</p>
+      </div>
+      <div class="icon_container">
+      <img class="section2" src="/static/chat_icon.png">
+      <p class="icon_text">Start a conversation with one of the guides and know their availability</p>
+      </div>
+      <div class="icon_container">
+      <img class="section2" src="/static/schedule_icon.png">
+      <p class="icon_text">Schedule a one day session chat</p>
+
+      </div >    </div>
+        <a href="#" class="btn btn-primary my-2" onclick="window.location.href='{{url_for('filter_city')}}'">Get started</a>
+
+  </section>
+    <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Want to become a guide?</h1>
+      <a href="#" class="btn btn-primary my-2" onclick="window.location.href='{{url_for('choose_city')}}'">Get started</a>
+    </div>
+  </section> 
+
+  
+
+</main>
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>for support contact us at amr.elkady153@gmail.com</a></p>
+  </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="/static/bootstrap2.js"><\/script>')</script><script src="/static/bootstrap.js" ></script>
+
+<script type="text/javascript">
+  function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("showdroplist");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('showdroplist')) {
+        openDropdown.classList.remove('showdroplist');
+        document.getElementById("bars").classList.toggle("change");
+      }
+    }
+  }
+}
+function myFunct(x) {
+  x.classList.toggle("change");
+}
+</script>
+
+
+
+</body>
+</html>
